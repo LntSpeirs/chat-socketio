@@ -22,6 +22,12 @@ io.on("connection", (socket) => {
   //Cuando el socket te envie un evento
   socket.on("mensaje", (mensaje) => {
     console.log(mensaje);
+    //Envias el mensaje al resto de clientes (excluyendo al que le ha enviado el mensaje)
+    socket.broadcast.emit("mensaje", mensaje);
+    return () => {
+      //Desuscribimos de la escucha
+      socket.off("mensaje", (mensaje) => console.log("Desuscribir"));
+    };
   });
 });
 
