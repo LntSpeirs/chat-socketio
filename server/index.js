@@ -23,7 +23,10 @@ io.on("connection", (socket) => {
   socket.on("mensaje", (mensaje) => {
     console.log(mensaje);
     //Envias el mensaje al resto de clientes (excluyendo al que le ha enviado el mensaje)
-    socket.broadcast.emit("mensaje", mensaje);
+    socket.broadcast.emit("mensaje", {
+      from: socket.id,
+      body: mensaje,
+    });
     return () => {
       //Desuscribimos de la escucha
       socket.off("mensaje", (mensaje) => console.log("Desuscribir"));
